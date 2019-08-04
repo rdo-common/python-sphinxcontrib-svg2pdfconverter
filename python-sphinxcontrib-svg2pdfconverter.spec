@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Sphinx SVG to PDF Converter Extension
 
 License:        BSD
@@ -37,7 +37,7 @@ Summary:        Sphinx SVG to PDF Converter Extension - Inkscape converter
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist sphinx}
 Requires:       /usr/bin/inkscape
-Requires:       %{py3_dist sphinxcontrib-svg2pdfconverter} = %{version}-%{release}
+Requires:       python3-%{srcname}-common = %{version}-%{release}
 
 %{?python_provide:%python_provide python3-sphinxcontrib-inkscapeconverter}
 
@@ -53,8 +53,7 @@ Summary:        Sphinx SVG to PDF Converter Extension - libRSVG converter
 BuildRequires:  python3-devel
 BuildRequires:  %{py3_dist sphinx}
 Requires:       /usr/bin/rsvg-convert
-Requires:       %{py3_dist sphinxcontrib-svg2pdfconverter} = %{version}-%{release}
-
+Requires:       python3-%{srcname}-common = %{version}-%{release}
 
 %{?python_provide:%python_provide python3-sphinxcontrib-rsvgconverter}
 
@@ -99,6 +98,9 @@ This package contains converter using libRSVG.
 
 
 %changelog
+* Sun Aug 04 2019 Julian Sikorski <belegdol@fedoraproject.org> - 0.1.0-3
+- Correct the dependencies between subpackages
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
