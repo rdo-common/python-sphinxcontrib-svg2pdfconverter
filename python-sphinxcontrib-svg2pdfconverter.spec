@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        0.1.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Sphinx SVG to PDF Converter Extension
 
 License:        BSD
@@ -98,6 +98,9 @@ This package contains converter using libRSVG.
 
 
 %changelog
+* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 0.1.0-4
+- Rebuilt for Python 3.8
+
 * Sun Aug 04 2019 Julian Sikorski <belegdol@fedoraproject.org> - 0.1.0-3
 - Correct the dependencies between subpackages
 
