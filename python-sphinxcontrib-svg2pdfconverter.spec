@@ -1,4 +1,14 @@
 %{?python_enable_dependency_generator}
+%if 0%{?fedora} || 0%{?rhel} > 7
+%global pyver %{python3_pkgversion}
+%else
+%global pyver 2
+%endif
+%global pyver_bin python%{pyver}
+%global pyver_sitelib %python%{pyver}_sitelib
+%global pyver_install %py%{pyver}_install
+%global pyver_build %py%{pyver}_build
+# End of macros for py2/py3 compatibility
 
 %global srcname sphinxcontrib-svg2pdfconverter
 
@@ -18,46 +28,46 @@ Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
 
 
-%package -n python3-%{srcname}-common
+%package -n python%{pyver}-%{srcname}-common
 Summary:        Sphinx SVG to PDF Converter Extension - common files
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  python%{pyver}-devel
+BuildRequires:  python%{pyver}-sphinx
 
 
-%description -n python3-%{srcname}-common
+%description -n python%{pyver}-%{srcname}-common
 Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
 This package contains common files.
 
 
-%package -n python3-sphinxcontrib-inkscapeconverter
+%package -n python%{pyver}-sphinxcontrib-inkscapeconverter
 Summary:        Sphinx SVG to PDF Converter Extension - Inkscape converter
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  python%{pyver}-devel
+BuildRequires:  python%{pyver}-sphinx
 Requires:       /usr/bin/inkscape
-Requires:       python3-%{srcname}-common = %{version}-%{release}
+Requires:       python%{pyver}-%{srcname}-common = %{version}-%{release}
 
-%{?python_provide:%python_provide python3-sphinxcontrib-inkscapeconverter}
+%{?python_provide:%python_provide python%{pyver}-sphinxcontrib-inkscapeconverter}
 
-%description -n python3-sphinxcontrib-inkscapeconverter
+%description -n python%{pyver}-sphinxcontrib-inkscapeconverter
 Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
 This package contains converter using Inkscape.
 
 
-%package -n python3-sphinxcontrib-rsvgconverter
+%package -n python%{pyver}-sphinxcontrib-rsvgconverter
 Summary:        Sphinx SVG to PDF Converter Extension - libRSVG converter
 
-BuildRequires:  python3-devel
-BuildRequires:  %{py3_dist sphinx}
+BuildRequires:  python%{pyver}-devel
+BuildRequires:  python%{pyver}-sphinx
 Requires:       /usr/bin/rsvg-convert
-Requires:       python3-%{srcname}-common = %{version}-%{release}
+Requires:       python%{pyver}-%{srcname}-common = %{version}-%{release}
 
-%{?python_provide:%python_provide python3-sphinxcontrib-rsvgconverter}
+%{?python_provide:%python_provide python%{pyver}-sphinxcontrib-rsvgconverter}
 
-%description -n python3-sphinxcontrib-rsvgconverter
+%description -n python%{pyver}-sphinxcontrib-rsvgconverter
 Converts SVG images to PDF in case the builder does not support SVG images
 natively (e.g. LaTeX).
 This package contains converter using libRSVG.
@@ -68,33 +78,37 @@ This package contains converter using libRSVG.
 
 
 %build
-%py3_build
+%pyver_build
 
 
 %install
-%py3_install
+%pyver_install
 
 
 %check
-%{__python3} setup.py test
+%{pyver_bin} setup.py test
 
 
 # Note that there is no %%files section for the unversioned python module
-%files -n python3-%{srcname}-common
+%files -n python%{pyver}-%{srcname}-common
 %license LICENSE.txt
 %doc README.rst
-%{python3_sitelib}/sphinxcontrib_svg2pdfconverter*nspkg.pth
-%{python3_sitelib}/sphinxcontrib_svg2pdfconverter-*.egg-info
+%{pyver_sitelib}/sphinxcontrib_svg2pdfconverter*nspkg.pth
+%{pyver_sitelib}/sphinxcontrib_svg2pdfconverter-*.egg-info
 
 
-%files -n python3-sphinxcontrib-inkscapeconverter
+%files -n python%{pyver}-sphinxcontrib-inkscapeconverter
+%if %{pyver} == 3
 %{python3_sitelib}/sphinxcontrib/__pycache__/inkscapeconverter.*.pyc
-%{python3_sitelib}/sphinxcontrib/inkscapeconverter.py
+%endif
+%{pyver_sitelib}/sphinxcontrib/inkscapeconverter.py*
 
 
-%files -n python3-sphinxcontrib-rsvgconverter
+%files -n python%{pyver}-sphinxcontrib-rsvgconverter
+%if %{pyver} == 3
 %{python3_sitelib}/sphinxcontrib/__pycache__/rsvgconverter.*.pyc
-%{python3_sitelib}/sphinxcontrib/rsvgconverter.py
+%endif
+%{pyver_sitelib}/sphinxcontrib/rsvgconverter.py*
 
 
 %changelog
